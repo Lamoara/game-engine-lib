@@ -91,23 +91,10 @@ impl AnisotropyClamp {
 
 #[derive(Default)]
 pub struct TextureSamplerDescriptor {
-    pub label: String,
+    pub label: Option<String>,
     pub wrap_mode: WrapMode,
     pub texture_filter: TextureFilter,
     pub anisotropic_clamp: AnisotropyClamp,
-}
-
-#[derive(Default)]
-pub enum TextureColorSpace {
-    #[default]
-    Srgb,
-    Linear,
-}
-
-#[derive(Default)]
-pub struct TextureDescriptor {
-    color_space: TextureColorSpace,
-    sampler_descriptor: TextureSamplerDescriptor,
 }
 
 impl Into<wgpu::SamplerDescriptor> for TextureSamplerDescriptor {
@@ -123,6 +110,31 @@ impl Into<wgpu::SamplerDescriptor> for TextureSamplerDescriptor {
             ..Default::default()
         }
     }
+}
+
+#[deriver(Default)]
+pub struct TextureViewDescriptor {
+    label: Option<String>,
+}
+
+#[derive(Default)]
+pub struct TextureDescriptor {
+    label: Option<String>,
+}
+
+#[derive(Default)]
+pub enum TextureColorSpace {
+    #[default]
+    Srgb,
+    Linear,
+}
+
+#[derive(Default)]
+pub struct TextureConfig {
+    color_space: TextureColorSpace,
+    view_descriptor: TextureViewDescriptor,
+    sampler_descriptor: TextureSamplerDescriptor,
+    texture_descriptor: TextureDescriptor,
 }
 
 pub struct Texture {
